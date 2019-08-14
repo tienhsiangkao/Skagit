@@ -1,0 +1,31 @@
+RSK = RSKopen('mooring1shallow.rsk');
+RSK = RSKreaddata(RSK);
+
+% Remove atmospheric pressure from measured total pressure
+RSK = RSKderiveseapressure(RSK);
+
+% Derive practical salinity
+RSK = RSKderivesalinity(RSK);
+
+% Derive depth
+RSK = RSKderivedepth(RSK);
+
+% Alignment of conductivity to temperature and pressure
+lag = RSKcalculateCTlag(RSK);
+RSK = RSKalignchannel(RSK, 'Conductivity', lag);
+
+rsk = RSKsmooth(rsk,{'temperature','conductivity'}, 'windowLength',
+ 5);
+RSKplotdata(RSK);
+
+moor1.mtime = RSK.data.tstamp;
+moor1.hour = rem(moor1.mtime,1)*24;
+moor1.s = RSK.data.values(:,6);
+moor1.t = RSK.data.values(:,2);
+moor1.z = RSK.data.values(:,7);
+moor1.obs = RSK.data.values(:,4);
+moor1.lat = [];
+moor1.lon = [];
+
+save moor1.mat moor1
+
