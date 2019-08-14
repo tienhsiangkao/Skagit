@@ -1,5 +1,3 @@
-clear;
-
 % load mooring data
 load('moor1.mat'); load('moor2.mat');
 
@@ -21,16 +19,14 @@ moorings.obs  (:,2) = interp1(moor2.mtime, moor2.obs, moor1.mtime);
 
 % from datenumber to datetime
 formatOut = 'yyyy-mm-dd HH:MM:SS';
-
-T (:,1)= datetime(datestr(moorings.mtime(:,1), formatOut, 'local'))
-T (:,2)= datetime(datestr(moorings.mtime(:,2), formatOut, 'local'))
-moorings.mtime = T;
+T = moorings.mtime;
+T = datetime(d,'InputFormat','dd-MMM-yyyy HH:mm:ss')datestr(moorings.mtime, formatOut, 'local'));
 %T(:,2) = convertCharsToStrings(datestr(moorings.mtime(:,2), formatOut, 'local'));
 %T(isnan(T)) = NaT(377,1);
 
 % README
 moorings.readme = {'VARIABLE','UNIT','DESCRIPTION';...
-    'mtime',' ','MATLAB datetime';...
+    'mtime',' ','MATLAB time frame';...
     'hour',' ','hours of the day';...
     's','psu','salinity';...
     't','deg C','temperature';...

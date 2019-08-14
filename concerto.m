@@ -1,6 +1,6 @@
 % load mooring data respectively
 
-RSK = RSKopen('mooring2deep.rsk');
+RSK = RSKopen('mooring1shallow.rsk');
 RSK = RSKreaddata(RSK);
 
 % Remove atmospheric pressure from measured total pressure
@@ -20,14 +20,14 @@ RSK = RSKalignchannel(RSK, 'Conductivity', lag);
 RSK = RSKsmooth(RSK,{'temperature','conductivity','turbidity'}, 'windowLength',5);
 RSKplotdata(RSK);
 
-moor2.mtime = RSK.data.tstamp;
-moor2.hour = rem(moor2.mtime,1)*24;
-moor2.s    = RSK.data.values(:,6);
-moor2.t    = RSK.data.values(:,2);
-moor2.z    = RSK.data.values(:,7);
-moor2.obs  = RSK.data.values(:,4);
-moor2.lat  = [];
-moor2.lon  = [];
+moor1.mtime = RSK.data.tstamp;
+moor1.hour = rem(moor1.mtime,1)*24;
+moor1.s    = RSK.data.values(:,6);
+moor1.t    = RSK.data.values(:,2);
+moor1.z    = RSK.data.values(:,7);
+moor1.obs  = RSK.data.values(:,4);
+moor1.lat  = [];
+moor1.lon  = [];
 
-save moor2.mat moor2
+save moor1.mat moor1
 
